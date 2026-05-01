@@ -6,16 +6,21 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Public booking flow
-Route::get('/', [BookingController::class, 'index'])->name('home');
+// Landing page
+Route::get('/', [BookingController::class, 'welcome'])->name('home');
 
+// Public booking flow
 Route::prefix('book')->name('booking.')->group(function () {
-    Route::get('/packages',           [BookingController::class, 'packages'])->name('packages');
-    Route::get('/date/{package}',     [BookingController::class, 'date'])->name('date');
-    Route::post('/store',             [BookingController::class, 'store'])->name('store');
-    Route::get('/payment/{booking}',  [PaymentController::class, 'show'])->name('payment');
-    Route::post('/payment/{booking}', [PaymentController::class, 'upload'])->name('payment.upload');
-    Route::get('/confirm/{booking}',  [BookingController::class, 'confirm'])->name('confirm');
+    Route::get('/packages',              [BookingController::class, 'packages'])->name('packages');
+    Route::get('/date/{package}',        [BookingController::class, 'date'])->name('date');
+    Route::post('/store',                [BookingController::class, 'store'])->name('store');
+    Route::get('/payment/{booking}',     [PaymentController::class, 'show'])->name('payment');
+    Route::post('/pay/{booking}',        [PaymentController::class, 'initiate'])->name('payment.initiate');
+    Route::get('/payment/return/{booking}', [PaymentController::class, 'return'])->name('payment.return');
+    Route::post('/payment/callback',     [PaymentController::class, 'callback'])->name('payment.callback');
+    Route::get('/payment/success/{booking}', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment/failed/{booking}',  [PaymentController::class, 'failed'])->name('payment.failed');
+    Route::get('/receipt/{booking}',     [PaymentController::class, 'receipt'])->name('receipt');
 });
 
 Route::get('/api/availability/{package}', [BookingController::class, 'availability'])

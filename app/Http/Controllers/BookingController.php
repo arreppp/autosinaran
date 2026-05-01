@@ -16,9 +16,9 @@ class BookingController extends Controller
 {
     public function __construct(private BookingService $bookingService) {}
 
-    public function index(): Response
+    public function welcome(): Response
     {
-        return Inertia::render('Booking/Step1Package', [
+        return Inertia::render('Welcome', [
             'packages' => Package::where('is_active', true)->get(),
         ]);
     }
@@ -49,13 +49,6 @@ class BookingController extends Controller
         $booking = Booking::create($request->validated());
 
         return redirect()->route('booking.payment', $booking);
-    }
-
-    public function confirm(Booking $booking): Response
-    {
-        return Inertia::render('Booking/Confirmation', [
-            'booking' => $booking->load(['package', 'payment']),
-        ]);
     }
 
     public function availability(Request $request, Package $package): JsonResponse
