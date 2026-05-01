@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git checkout *)",
+      "Bash(php artisan *)",
+      "PowerShell(gh pr create --base main --head feature/implement-booking-system --title \"Implement Auto Sinaran Workshop Booking System\" --body-file \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\pr_body.txt\")",
+      "Bash(git credential *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('html_url', d.get\\('message','error'\\)\\)\\)\")"
     ]
   }
 }
