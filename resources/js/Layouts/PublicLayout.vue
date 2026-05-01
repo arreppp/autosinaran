@@ -10,7 +10,7 @@ import { Link } from '@inertiajs/vue3';
                     <span class="text-xl font-bold text-blue-700">Auto Sinaran</span>
                     <span class="text-sm text-gray-500">Workshop</span>
                 </Link>
-                <Link :href="route('home')" class="text-sm text-blue-600 hover:underline">
+                <Link :href="route('booking.packages')" class="text-sm text-blue-600 hover:underline font-medium">
                     Book Now
                 </Link>
             </div>
