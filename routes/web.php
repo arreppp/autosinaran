@@ -6,6 +6,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+
 // Public booking flow
 Route::get('/', [BookingController::class, 'index'])->name('home');
 
@@ -14,9 +15,14 @@ Route::prefix('book')->name('booking.')->group(function () {
     Route::get('/date/{package}',     [BookingController::class, 'date'])->name('date');
     Route::post('/store',             [BookingController::class, 'store'])->name('store');
     Route::get('/payment/{booking}',  [PaymentController::class, 'show'])->name('payment');
-    Route::post('/payment/{booking}', [PaymentController::class, 'upload'])->name('payment.upload');
-    Route::get('/confirm/{booking}',  [BookingController::class, 'confirm'])->name('confirm');
+    Route::post('/payment/{booking}',        [PaymentController::class, 'upload'])->name('payment.upload');
+    Route::post('/payment/{booking}/billplz', [PaymentController::class, 'billplzPay'])->name('payment.billplz');
+    Route::get('/confirm/{booking}',         [BookingController::class, 'confirm'])->name('confirm');
 });
+
+// Billplz webhook + redirect (outside CSRF — callback is excluded in bootstrap/app.php)
+Route::post('billplz/callback', [PaymentController::class, 'billplzCallback'])->name('billplz.callback');
+Route::get('billplz/redirect',  [PaymentController::class, 'billplzRedirect'])->name('billplz.redirect');
 
 Route::get('/api/availability/{package}', [BookingController::class, 'availability'])
     ->name('api.availability');
