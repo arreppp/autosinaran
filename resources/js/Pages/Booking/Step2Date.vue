@@ -9,9 +9,23 @@ const props = defineProps<{
     package: Package;
 }>();
 
+const TIME_SLOTS = [
+    { value: '08:00', label: '8:00 AM' },
+    { value: '09:00', label: '9:00 AM' },
+    { value: '10:00', label: '10:00 AM' },
+    { value: '11:00', label: '11:00 AM' },
+    { value: '12:00', label: '12:00 PM' },
+    { value: '13:00', label: '1:00 PM' },
+    { value: '14:00', label: '2:00 PM' },
+    { value: '15:00', label: '3:00 PM' },
+    { value: '16:00', label: '4:00 PM' },
+    { value: '17:00', label: '5:00 PM' },
+];
+
 const form = useForm({
     package_id:     props.package.id,
     booking_date:   '',
+    booking_time:   '',
     customer_name:  '',
     customer_email: '',
     customer_phone: '',
@@ -59,6 +73,30 @@ function submit() {
                     </p>
                     <p v-if="form.booking_date" class="text-sm text-green-700 mt-2 font-medium">
                         Selected: {{ dayjs(form.booking_date).format('dddd, D MMMM YYYY') }}
+                    </p>
+                </div>
+
+                <!-- Time slot -->
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">Select Appointment Time</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                        <button
+                            v-for="slot in TIME_SLOTS"
+                            :key="slot.value"
+                            type="button"
+                            @click="form.booking_time = slot.value"
+                            :class="[
+                                'px-3 py-2 text-sm rounded-lg border transition font-medium',
+                                form.booking_time === slot.value
+                                    ? 'bg-blue-600 text-white border-blue-600'
+                                    : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400'
+                            ]"
+                        >
+                            {{ slot.label }}
+                        </button>
+                    </div>
+                    <p v-if="form.errors.booking_time" class="text-red-500 text-sm mt-1">
+                        {{ form.errors.booking_time }}
                     </p>
                 </div>
 
@@ -134,7 +172,7 @@ function submit() {
                     </a>
                     <button
                         type="submit"
-                        :disabled="form.processing || !form.booking_date"
+                        :disabled="form.processing || !form.booking_date || !form.booking_time"
                         class="px-8 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 disabled:opacity-50 transition"
                     >
                         {{ form.processing ? 'Processing…' : 'Continue to Payment →' }}

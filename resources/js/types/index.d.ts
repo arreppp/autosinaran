@@ -46,6 +46,7 @@ export interface Booking {
     package_id: number;
     package?: Package;
     booking_date: string;
+    booking_time: string | null;
     status: BookingStatus;
     notes: string | null;
     payment?: Payment;
